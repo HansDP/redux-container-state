@@ -15,7 +15,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
-    "redux-container-state": "^0.0.1",
+    "redux-container-state": "^0.1.1",
     "babel-runtime": "^6.5.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",

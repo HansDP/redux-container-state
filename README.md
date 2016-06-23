@@ -40,17 +40,17 @@ const initialState = 0
 
 // The updater(...) function handles isolation of the Counter reducer.
 export default updater((state = initialState, action) => {
-	switch (action.type) {
+  switch (action.type) {
 
-		case 'Increment':
-			return state + 1
+    case 'Increment':
+      return state + 1
 
-		case 'Decrement':
-			return state - 1
-			
-		default:
-			return state
-	}
+    case 'Decrement':
+      return state - 1
+      
+    default:
+      return state
+  }
 })
 ```
 
@@ -61,11 +61,11 @@ import React from 'react'
 import { view } from 'redux-container-state'
 
 export default view(({ model, dispatch }) => (
-    <div>
-        <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
-        <div>{model}</div>
-        <button onClick={() => dispatch({ type: 'Increment' })}>+</button>
-    </div>
+  <div>
+    <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
+    <div>{model}</div>
+    <button onClick={() => dispatch({ type: 'Increment' })}>+</button>
+  </div>
 ))
 ```
 
@@ -95,11 +95,11 @@ import { forwardTo, view } from 'redux-container-state'
 import Counter from '../counter/view'
 
 export default view(({ model, dispatch }) => (
-	<div>
-		<Counter model={model.topCounter} dispatch={forwardTo(dispatch, 'TopCounter')} />
-		<Counter model={model.bottomCounter} dispatch={forwardTo(dispatch, 'BottomCounter')} />
-		<button onClick={() => dispatch({ type: 'Reset' })}>RESET</button>
-	</div>
+  <div>
+    <Counter model={model.topCounter} dispatch={forwardTo(dispatch, 'TopCounter')} />
+    <Counter model={model.bottomCounter} dispatch={forwardTo(dispatch, 'BottomCounter')} />
+    <button onClick={() => dispatch({ type: 'Reset' })}>RESET</button>
+  </div>
 ))
 ```
 
@@ -114,31 +114,31 @@ import { updater } from 'redux-container-state'
 import counterUpdater, { initialState as counterInitialState } from '../counter/updater'
 
 const initialState = {
-	topCounter: counterInitialState,
-	bottomCounter: counterInitialState
+  topCounter: counterInitialState,
+  bottomCounter: counterInitialState
 }
 
 export default updater((state = initialState, action) => {
-	switch (action.type) {
+  switch (action.type) {
 
-		case 'Reset':
-			return initialState
+    case 'Reset':
+      return initialState
 
-		case 'TopCounter': 
-			return {
-				...state,
-				topCounter: counterUpdater(state.topCounter, action.inner())
-			}
+    case 'TopCounter': 
+      return {
+        ...state,
+        topCounter: counterUpdater(state.topCounter, action.inner())
+      }
 
-		case 'BottomCounter': 
-			return {
-				...state,
-				bottomCounter: counterUpdater(state.bottomCounter, action.inner())
-			}
-			
-		default:
-			return state
-	}
+    case 'BottomCounter': 
+      return {
+        ...state,
+        bottomCounter: counterUpdater(state.bottomCounter, action.inner())
+      }
+      
+    default:
+      return state
+  }
 })
 ```
 
@@ -160,14 +160,14 @@ import { forwardTo, view } from 'redux-container-state'
 import Counter from '../counter/view'
 
 const viewCounter = (dispatch, model, index) =>
-	<Counter key={index} dispatch={ forwardTo(dispatch, 'Counter', index) } model={ model } />
+  <Counter key={index} dispatch={ forwardTo(dispatch, 'Counter', index) } model={ model } />
 
 export default view(({ model, dispatch }) => (
-	<div>
-		<button onClick={ () => dispatch({ type: 'Remove' }) }>Remove</button>
-		<button onClick={ () => dispatch({ type: 'Insert' }) }>Add</button>
-		{model.map((counterModel, index) => viewCounter(dispatch, counterModel, index))}
-	</div>
+  <div>
+    <button onClick={ () => dispatch({ type: 'Remove' }) }>Remove</button>
+    <button onClick={ () => dispatch({ type: 'Insert' }) }>Add</button>
+    {model.map((counterModel, index) => viewCounter(dispatch, counterModel, index))}
+  </div>
 ))
 ```
 
