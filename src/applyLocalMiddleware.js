@@ -8,7 +8,7 @@ export default (...middlewares) => (view) => {
 		getState: () => view.props.model,
 		dispatch: localDispatch,
 		getGlobalState: () => view.context.store.getState(),
-		globalDispatch: (action) => view.context.store.dispatch
+		globalDispatch: (action) => view.context.store.dispatch(action)
 	}
 
 	const chain = middlewares.map(middleware => middleware(middlewareAPI))
