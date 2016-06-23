@@ -11,6 +11,9 @@ const createWrappedAction = (action, globalType, segments, index) => {
 		type,
 		typeParam,
 		inner: () => {
+			if (segments.length === index + 1) {
+				throw 'There is no more inner() action left.'
+			}
 			return createWrappedAction(action, globalType, segments, index + 1)
 		}
 	}

@@ -60,7 +60,7 @@ export default updater((state = initialState, action) => {
 import React from 'react'
 import { view } from 'redux-container-state'
 
-export default view(({ model, dispatch }) => (
+export default view()(({ model, dispatch }) => (
   <div>
     <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
     <div>{model}</div>
@@ -94,7 +94,7 @@ import { forwardTo, view } from 'redux-container-state'
 
 import Counter from '../counter/view'
 
-export default view(({ model, dispatch }) => (
+export default view()(({ model, dispatch }) => (
   <div>
     <Counter model={model.topCounter} dispatch={forwardTo(dispatch, 'TopCounter')} />
     <Counter model={model.bottomCounter} dispatch={forwardTo(dispatch, 'BottomCounter')} />
@@ -162,7 +162,7 @@ import Counter from '../counter/view'
 const viewCounter = (dispatch, model, index) =>
   <Counter key={index} dispatch={ forwardTo(dispatch, 'Counter', index) } model={ model } />
 
-export default view(({ model, dispatch }) => (
+export default view()(({ model, dispatch }) => (
   <div>
     <button onClick={ () => dispatch({ type: 'Remove' }) }>Remove</button>
     <button onClick={ () => dispatch({ type: 'Insert' }) }>Add</button>
