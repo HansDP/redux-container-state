@@ -218,6 +218,50 @@ export default updater((state = [], action) => {
 The updater can use the `typeParam` to check the targetted child container (as set in the forwardTo method). Because parameterization is mainly used within the context of arrays (and thus the index in the array will be the parameter), the framework deserializes numbers back to valid JavaScript types (which takes away the burder to have to parse the parameter to a number yourself.)
 
 
+## Local middleware
+
+**Note**: This is highly experimental and has not validated against multiple use-case. However, [local thunk middleware](https://github.com/HansDP/redux-container-state-thunk) is up and running. Yay!
+
+In order for your reusable container to be truly isolated, you probably need some middleware that only applies to your container only.
+
+```javascript
+import React from 'react'
+import { view } from 'redux-container-state'
+import localThunk from 'redux-container-state-thunk'
+
+
+const increment = () => {
+  return {
+    type: 'INCREMENT_COUNTER'
+  }
+}
+
+const incrementAsync = () => {
+  return (dispatch, getState) => {
+    setTimeout(() => {
+      dispatch(increment());
+    }, 1000)
+  }
+}
+
+const counterUpdater = updater((state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT_COUNTER': 
+      return state++
+    default:
+      return state
+  }
+})
+
+// Pass the middlewares you need to the view() method.
+export default view(localThunk)(({model, dispatch}) => (
+  <div>
+    <button onClick={ () => dispatch(incrementAsync()) }>Start counter</button>
+    Current count: { model }
+  </div>
+))
+```
+
 ## Some remarks
 
 ### Actions are dispatched globally
