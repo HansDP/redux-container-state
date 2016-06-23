@@ -25,24 +25,22 @@ const createWrappedAction = (action, globalType, segments, index) => {
  * @param {Function} reducer The reducer to augment
  * @return {Function} The augmented reducer with Elm-like updater functionality
  */
-export default (reducer) => {
+export default (reducer) => (state, action) => {
 
-	return (state, action) => {
-
-		const segments = action.type.split(ActionDelimiter).map((segment) => {
-			const match = segment.match(parameterRegEx)
-			if (match) {
-				return {
-					type: match[1],
-					param: isNaN(match[2]) ? match[2] : parseFloat(match[2])
-				}
-			} 
+	const segments = action.type.split(ActionDelimiter).map((segment) => {
+		const match = segment.match(parameterRegEx)
+		if (match) {
 			return {
-				type: segment
+				type: match[1],
+				param: isNaN(match[2]) ? match[2] : parseFloat(match[2])
 			}
-		})
+		} 
+		return {
+			type: segment
+		}
+	})
 
-		const wrappedAction = createWrappedAction(action, action.type, segments, 0)
-		return reducer(state, wrappedAction)
-	}
+	// if the action already contains the inner method, it is already wrapped
+	const wrappedAction = typeof action.inner === 'function' ? action : createWrappedAction(action, action.type, segments, 0)
+	return reducer(state, wrappedAction)
 }
