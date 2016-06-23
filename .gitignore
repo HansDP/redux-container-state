@@ -1,0 +1,6 @@
+node_modules
+temp
+lib
+npm-debug.log
+coverage
+_book
