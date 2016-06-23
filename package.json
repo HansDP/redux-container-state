@@ -1,6 +1,6 @@
 {
   "name": "redux-container-state",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Container state for Redux based on the Elm Architecture",
   "main": "lib/index.js",
   "files": [
