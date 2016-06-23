@@ -1,14 +1,14 @@
 # [redux-container-state](https://github.com/HansDP/redux-container-state)
 
-**Note:** Work in progress. This project is not ready to be used
-
 This project is an attempt to integrate local container state into a Redux store, which is global by nature.
+
+> **Note:** Work in progress. This project is not ready to be used
 
 ### Influences
 
-This project evolves the ideas [redux-elm](http://salsita.github.io/redux-elm/), but avoids its opinions about Side Effects and tries to be more in line with [Redux](https://github.com/reactjs/redux/) approach of reducers.
+This project evolves the ideas [redux-elm](http://salsita.github.io/redux-elm/), but avoids opinions about specific implementations of Side Effects and tries to be more in line with the [Redux](https://github.com/reactjs/redux/) approach of reducers.
 
-Because `redux-elm` is highly influenced by [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/), most concepts will be familiar to the architecture.
+Because this project is influenced by `redux-elm`, which is in its term highly influenced by [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/), most concepts will be familiar to both projects.
 
 ### What is this project trying to solve?
 
