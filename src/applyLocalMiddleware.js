@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { compose } from 'redux'
 
 export default (...middlewares) => (next) => (View) => {
@@ -16,11 +16,15 @@ export default (...middlewares) => (next) => (View) => {
 		return compose(...chain)(localDispatch)
 	}
 
-	return next(class ViewWithMiddleware extends React.Component {
+	return next(class ViewWithMiddleware extends Component {
 		constructor(props, context) {
 			super(props, context)
 			this.dispatch = createDispatch(this)
 		}
+
+	    static contextTypes = {
+	        store: PropTypes.object.isRequired
+	    };
 
 		render() {
 			return React.createElement(View, { ...this.props, dispatch: this.dispatch})

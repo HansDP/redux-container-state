@@ -12,10 +12,6 @@ export default (View) => class HocView extends Component {
         dispatch: PropTypes.func.isRequired
     };
 
-    static contextTypes = {
-        store: PropTypes.object.isRequired
-    };
-
     /**
     * @constructor
     * @param {Object} Props
