@@ -1,5 +1,4 @@
 import { createElement, Component, PropTypes } from 'react'
-import applyLocalMiddleware from './applyLocalMiddleware'
 
 /**
  * Higher order component implementing shouldComponentUpdate which ignores passed dispatch

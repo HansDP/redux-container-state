@@ -8,6 +8,7 @@ const initialModel = {
 }
 
 export default updater((model = initialModel, action) => {
+
 	switch (action.type) {
 
 		case 'Reset':
