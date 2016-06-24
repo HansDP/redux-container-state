@@ -127,13 +127,13 @@ export default updater((state = initialState, action) => {
     case 'TopCounter': 
       return {
         ...state,
-        topCounter: counterUpdater(state.topCounter, action.inner())
+        topCounter: counterUpdater(state.topCounter, action)
       }
 
     case 'BottomCounter': 
       return {
         ...state,
-        bottomCounter: counterUpdater(state.bottomCounter, action.inner())
+        bottomCounter: counterUpdater(state.bottomCounter, action)
       }
       
     default:
@@ -142,7 +142,7 @@ export default updater((state = initialState, action) => {
 })
 ```
 
-The parent updator is aware of child containers, he should pass the inner action to the child updators. This is done by passing the `action.inner()` to the counter updator.
+The parent updator is aware of its child updaters. The library takes care of unwrapping the parent's action into a child action, so you just pass the action to the child updater.
 
 
 ## Dynamic composition
@@ -204,7 +204,7 @@ export default updater((state = [], action) => {
         case 'Counter':
             return state.map((counterState, index) => {
                 if (index === action.typeParam) {
-                    return counterUpdater(counterState, action.inner())
+                    return counterUpdater(counterState, action)
                 }
                 return counterState
             })

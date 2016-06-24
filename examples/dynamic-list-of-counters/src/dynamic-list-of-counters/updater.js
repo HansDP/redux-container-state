@@ -22,7 +22,7 @@ export default updater((state = [], action) => {
         case 'Counter':
             return state.map((counterState, index) => {
                 if (index === action.typeParam) {
-                    return counterUpdater(counterState, action.inner())
+                    return counterUpdater(counterState, action)
                 }
                 return counterState
             })

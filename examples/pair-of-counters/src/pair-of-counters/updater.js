@@ -16,13 +16,13 @@ export default updater((state = initialState, action) => {
 		case 'TopCounter': 
 			return {
 				...state,
-				topCounter: counterUpdater(state.topCounter, action.inner())
+				topCounter: counterUpdater(state.topCounter, action)
 			}
 
 		case 'BottomCounter': 
 			return {
 				...state,
-				bottomCounter: counterUpdater(state.bottomCounter, action.inner())
+				bottomCounter: counterUpdater(state.bottomCounter, action)
 			}
 			
 		default:
