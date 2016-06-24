@@ -218,7 +218,9 @@ export default updater((state = [], action) => {
 The updater can use the `typeParam` to check the targetted child container (as set in the forwardTo method). Because parameterization is mainly used within the context of arrays (and thus the index in the array will be the parameter), the framework deserializes numbers back to valid JavaScript types (which takes away the burder to have to parse the parameter to a number yourself.)
 
 
-## Local middleware
+## View enhancers
+
+### Local middleware
 
 **Note**: This is highly experimental and has not validated against multiple use-case. However, [local thunk middleware](https://github.com/HansDP/redux-container-state-thunk) is up and running. Yay!
 
@@ -264,6 +266,11 @@ export default viewWithMiddleware(({model, dispatch}) => (
   </div>
 ))
 ```
+
+### Global state
+
+In some cases, you will want to get access to the global state of Redux within your view(). For that use-case, take a loog at the global-state enhancer at [redux-container-state-globalstate](https://github.com/HansDP/redux-container-state-globalstate).
+
 
 ## Some remarks
 
