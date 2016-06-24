@@ -4,13 +4,13 @@ This project is an attempt to integrate local container state into a Redux store
 
 > **Note:** Work in progress. This project is not ready to be used
 
-### Influences
+#### Influences
 
 This project evolves the ideas [redux-elm](http://salsita.github.io/redux-elm/), but avoids opinions about specific implementations of Side Effects and tries to be more in line with the [Redux](https://github.com/reactjs/redux/) approach of reducers.
 
 Because this project is influenced by `redux-elm`, which is in its term highly influenced by [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/), most concepts will be familiar to both projects.
 
-### What is this project trying to solve?
+#### What is this project trying to solve?
 
 This project tries to solve the same problem as the `redux-elm` project:
 
@@ -29,9 +29,9 @@ To create containers that benefit from this approach, your container should at l
 
 In the Elm architecture, the typical example is about a counter. So, lets get started with the same example.
 
-### Counter
+#### Counter
 
-#### Counter updater
+##### Counter updater
 
 ```javascript
 import { updater } from 'redux-container-state'
@@ -54,7 +54,7 @@ export default updater((model = initialModel, action) => {
 })
 ```
 
-#### Counter view
+##### Counter view
 
 ```javascript
 import React from 'react'
@@ -74,7 +74,7 @@ export default view(({ model, dispatch }) => (
 
 The Counter sample is the most simple example, but it should give you an idea of the way of working.
 
-### Pair of counters
+#### Pair of counters
 
 To up the ante, let us create a parent container that holds two Counters (the pair-of-counters use case): a topCounter and a bottomCounter.
 
@@ -86,7 +86,7 @@ Little side note: you actually need to change one detail in the Counter example 
 export default const initialModel = 0
 ```
 
-#### Parent view
+##### Parent view
 
 ```javascript
 import React from 'react'
@@ -107,7 +107,7 @@ The above sample actually explains the internal working of the composition mecha
 
 For instance: `forwardTo(dispatch, 'TopCounter')` creates a new `dispatch` method that will wrap dispatches of the child container into the TopCounter context. This context can then be used within the parent updater to inspect the targetted child container.
 
-#### Parent updater
+##### Parent updater
 
 ```javascript
 import { updater } from 'redux-container-state'
@@ -149,9 +149,9 @@ The parent updator is aware of its child updaters. The library takes care of unw
 
 In a lot of cases, a hard-coded set of child containers is sufficient. However, there is a huge use-case for a dynamic set of child containers.
 
-### Dynamic list of counters
+#### Dynamic list of counters
 
-#### Parent view
+##### Parent view
 
 ```javascript
 import React from 'react'
@@ -177,7 +177,7 @@ That is why the `forwardTo` method can take an additional parameter, which param
 
 Note: this parameter can be of any type, but it should be serializable to a string (e.g. integers, strings, floats, ...).  
 
-#### Parent updater
+##### Parent updater
 
 ```javascript
 import { updater } from 'redux-container-state'
@@ -220,7 +220,7 @@ The updater can use the `typeParam` to check the targetted child container (as s
 
 ## View enhancers
 
-### Local middleware
+#### Local middleware
 
 **Note**: This is highly experimental and has not validated against multiple use-case. However, [local thunk middleware](https://github.com/HansDP/redux-container-state-thunk) is up and running. Yay!
 
@@ -267,14 +267,21 @@ export default viewWithMiddleware(({model, dispatch}) => (
 ))
 ```
 
-### Global state
+#### Global state
 
 In some cases, you will want to get access to the global state of Redux within your view(). For that use-case, take a loog at the global-state enhancer at [redux-container-state-globalstate](https://github.com/HansDP/redux-container-state-globalstate).
 
 
+#### Side Effects with [redux-saga](https://github.com/yelouafi/redux-saga)
+
+If you wish to incoporate `redux-saga` into your local containers, you can use the view enhancer [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga). 
+
+Examples are not ready yet, but they are coming up. In the mean time, head over the `redux-container-state-saga` project page to get a grip of the steps needed.
+
+
 ## Some remarks
 
-### Actions are dispatched globally
+#### Actions are dispatched globally
 
 Worth noting is that all actions that originate from a view() are dispatched globally. This might not be obvious at first sight, but if you consider that Redux is the backing state store for this framework, it makes a lot more sense. 
 
@@ -282,7 +289,7 @@ This also means that you can register any middleware and/or store enhancer in Re
 
 When composed actions are send to Redux, they will follow a predictable format. Suppose you have a container that holds a dynamic list of counters, the type of the action in global scope will look like `Counter[4]->Increment`. Or deeply nested, it could look like `Child[1]->GrandChild[2]->TopCounter->Increment`.
 
-### Inspecting the global type in an updater
+#### Inspecting the global type in an updater
 
 In some cases, you will want to inspect the globally dispatched action. To get a hold of this within an updater(reducer), you can inspect the `action.globalType` property.
 
