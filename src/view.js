@@ -6,44 +6,38 @@ import applyLocalMiddleware from './applyLocalMiddleware'
  *
  * @return {Component} Wrapped React Component
  */
-export default (...localMiddlewares) => {
+export default (View) => class HocView extends Component {
 
-    const localDispatchCreator = applyLocalMiddleware(...localMiddlewares)
+    static propTypes = {
+        dispatch: PropTypes.func.isRequired
+    };
 
-    return (View) => class HocView extends Component {
+    static contextTypes = {
+        store: PropTypes.object.isRequired
+    };
 
-        static propTypes = {
-            dispatch: PropTypes.func.isRequired
-        };
+    /**
+    * @constructor
+    * @param {Object} Props
+    */
+    constructor(props) {
+        super(props)
+        this.dispatch = (action) => this.props.dispatch(action)
+    }
 
-        static contextTypes = {
-            store: PropTypes.object.isRequired
-        };
+    /**
+    * shouldComponentUpdate implementation which ignores `dispatch` passed in props
+    *
+    * @param {Object} nextProps
+    * @return {boolean}
+    */
+    shouldComponentUpdate(nextProps) {
+        return Object
+            .keys(this.props)
+            .some(prop => (prop !== 'dispatch' && this.props[prop] !== nextProps[prop]))
+    }
 
-        /**
-        * @constructor
-        * @param {Object} Props
-        */
-        constructor(props) {
-            super(props)
-            this.dispatch = localDispatchCreator(this)
-        }
-
-        /**
-        * shouldComponentUpdate implementation which ignores `dispatch` passed in props
-        *
-        * @param {Object} nextProps
-        * @return {boolean}
-        */
-        shouldComponentUpdate(nextProps) {
-            return Object
-                .keys(this.props)
-                .some(prop => (prop !== 'dispatch' && this.props[prop] !== nextProps[prop]))
-        }
-
-        render() {
-            return createElement(View, { ...this.props, dispatch: this.dispatch })
-        }
+    render() {
+        return createElement(View, { ...this.props, dispatch: this.dispatch })
     }
 }
-

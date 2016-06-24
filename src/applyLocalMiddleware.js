@@ -1,17 +1,29 @@
+import React from 'react'
 import { compose } from 'redux'
 
-export default (...middlewares) => (view) => {
+export default (...middlewares) => (next) => (View) => {
 
-	const localDispatch = (action) => view.props.dispatch(action)
+	const createDispatch = (view) => {
+		const localDispatch = (action) => view.props.dispatch(action)
+		const middlewareAPI = {
+			getState: () => view.props.model,
+			dispatch: localDispatch,
+			getGlobalState: () => view.context.store.getState(),
+			globalDispatch: (action) => view.context.store.dispatch(action)
+		}
 
-	const middlewareAPI = {
-		getState: () => view.props.model,
-		dispatch: localDispatch,
-		getGlobalState: () => view.context.store.getState(),
-		globalDispatch: (action) => view.context.store.dispatch(action)
+		const chain = middlewares.map(middleware => middleware(middlewareAPI))
+		return compose(...chain)(localDispatch)
 	}
 
-	const chain = middlewares.map(middleware => middleware(middlewareAPI))
+	return next(class ViewWithMiddleware extends React.Component {
+		constructor(props, context) {
+			super(props, context)
+			this.dispatch = createDispatch(this)
+		}
 
-	return compose(...chain)(localDispatch)
+		render() {
+			return React.createElement(View, { ...this.props, dispatch: this.dispatch})
+		}
+	})
 }

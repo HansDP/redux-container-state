@@ -60,7 +60,7 @@ export default updater((state = initialState, action) => {
 import React from 'react'
 import { view } from 'redux-container-state'
 
-export default view()(({ model, dispatch }) => (
+export default view(({ model, dispatch }) => (
   <div>
     <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
     <div>{model}</div>
@@ -94,7 +94,7 @@ import { forwardTo, view } from 'redux-container-state'
 
 import Counter from '../counter/view'
 
-export default view()(({ model, dispatch }) => (
+export default view(({ model, dispatch }) => (
   <div>
     <Counter model={model.topCounter} dispatch={forwardTo(dispatch, 'TopCounter')} />
     <Counter model={model.bottomCounter} dispatch={forwardTo(dispatch, 'BottomCounter')} />
@@ -162,7 +162,7 @@ import Counter from '../counter/view'
 const viewCounter = (dispatch, model, index) =>
   <Counter key={index} dispatch={ forwardTo(dispatch, 'Counter', index) } model={ model } />
 
-export default view()(({ model, dispatch }) => (
+export default view(({ model, dispatch }) => (
   <div>
     <button onClick={ () => dispatch({ type: 'Remove' }) }>Remove</button>
     <button onClick={ () => dispatch({ type: 'Insert' }) }>Add</button>
@@ -226,7 +226,8 @@ In order for your reusable container to be truly isolated, you probably need som
 
 ```javascript
 import React from 'react'
-import { view } from 'redux-container-state'
+import { compose } from 'redux'
+import { view, applyLocalMiddleware } from 'redux-container-state'
 import localThunk from 'redux-container-state-thunk'
 
 
@@ -253,8 +254,10 @@ const counterUpdater = updater((state = 0, action) => {
   }
 })
 
-// Pass the middlewares you need to the view() method.
-export default view(localThunk)(({model, dispatch}) => (
+const viewWithMiddleware = compose(applyLocalMiddleware(localThunk))(view)
+
+// Pass the middlewares you need to the view method.
+export default viewWithMiddleware(({model, dispatch}) => (
   <div>
     <button onClick={ () => dispatch(incrementAsync()) }>Start counter</button>
     Current count: { model }
