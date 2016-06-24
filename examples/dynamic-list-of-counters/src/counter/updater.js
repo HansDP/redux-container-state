@@ -1,17 +1,17 @@
 import { updater } from 'redux-container-state'
 
-export const initialState = 0
+export const initialModel = 0
 
-export default updater((state = initialState, action) => {
+export default updater((model = initialModel, action) => {
 	switch (action.type) {
 
 		case 'Increment':
-			return state + 1
+			return model + 1
 
 		case 'Decrement':
-			return state - 1
+			return model - 1
 			
 		default:
-			return state
+			return model
 	}
 })

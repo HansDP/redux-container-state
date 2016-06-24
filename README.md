@@ -36,20 +36,20 @@ In the Elm architecture, the typical example is about a counter. So, lets get st
 ```javascript
 import { updater } from 'redux-container-state'
 
-const initialState = 0
+const initialModel = 0
 
 // The updater(...) function handles isolation of the Counter reducer.
-export default updater((state = initialState, action) => {
+export default updater((model = initialModel, action) => {
   switch (action.type) {
 
     case 'Increment':
-      return state + 1
+      return model + 1
 
     case 'Decrement':
-      return state - 1
+      return model - 1
       
     default:
-      return state
+      return model
   }
 })
 ```
@@ -80,10 +80,10 @@ To up the ante, let us create a parent container that holds two Counters (the pa
 
 You can re-use the Counter updater and view from the example above. After all, this is the whole idea behind this project: being able to reuse containers.
 
-Little side note: you actually need to change one detail in the Counter example above: the parent view should know the initial state of its child containers. This requires you to just export the default initalState of the Counter updater:
+Little side note: you actually need to change one detail in the Counter example above: the parent view should know the initial state of its child containers. This requires you to just export the default initalModel of the Counter updater:
 
 ```javascript
-export default const initialState = 0
+export default const initialModel = 0
 ```
 
 #### Parent view
@@ -111,33 +111,33 @@ For instance: `forwardTo(dispatch, 'TopCounter')` creates a new `dispatch` metho
 
 ```javascript
 import { updater } from 'redux-container-state'
-import counterUpdater, { initialState as counterInitialState } from '../counter/updater'
+import counterUpdater, { initialModel as counterInitialModel } from '../counter/updater'
 
-const initialState = {
-  topCounter: counterInitialState,
-  bottomCounter: counterInitialState
+const initialModel = {
+  topCounter: counterInitialModel,
+  bottomCounter: counterInitialModel
 }
 
-export default updater((state = initialState, action) => {
+export default updater((model = initialModel, action) => {
   switch (action.type) {
 
     case 'Reset':
-      return initialState
+      return initialModel
 
     case 'TopCounter': 
       return {
-        ...state,
-        topCounter: counterUpdater(state.topCounter, action)
+        ...model,
+        topCounter: counterUpdater(model.topCounter, action)
       }
 
     case 'BottomCounter': 
       return {
-        ...state,
-        bottomCounter: counterUpdater(state.bottomCounter, action)
+        ...model,
+        bottomCounter: counterUpdater(model.bottomCounter, action)
       }
       
     default:
-      return state
+      return model
   }
 })
 ```
@@ -181,36 +181,36 @@ Note: this parameter can be of any type, but it should be serializable to a stri
 
 ```javascript
 import { updater } from 'redux-container-state'
-import counterUpdater, { initialState as counterInitialState } from '../counter/updater'
+import counterUpdater, { initialModel as counterInitialModel } from '../counter/updater'
 
-export default updater((state = [], action) => {
+export default updater((model = [], action) => {
 
     switch (action.type) {
 
         case 'Insert': 
             return [
-                ...state,
-                counterInitialState
+                ...model,
+                counterInitialModel
             ]
 
         case 'Remove':
-            if (state.length > 0) {
-                const counters = [ ...state ]
+            if (model.length > 0) {
+                const counters = [ ...model ]
                 counters.pop()
                 return counters
             }
-            return state
+            return model
 
         case 'Counter':
-            return state.map((counterState, index) => {
+            return model.map((counterModel, index) => {
                 if (index === action.typeParam) {
-                    return counterUpdater(counterState, action)
+                    return counterUpdater(counterModel, action)
                 }
-                return counterState
+                return counterModel
             })
 
         default:
-            return state
+            return model
     }
 })
 ```
@@ -247,12 +247,12 @@ const incrementAsync = () => {
   }
 }
 
-const counterUpdater = updater((state = 0, action) => {
+const counterUpdater = updater((model = 0, action) => {
   switch (action.type) {
     case 'INCREMENT_COUNTER': 
-      return state + 1
+      return model + 1
     default:
-      return state
+      return model
   }
 })
 

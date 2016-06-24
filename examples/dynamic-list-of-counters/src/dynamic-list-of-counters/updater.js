@@ -1,33 +1,33 @@
 import { updater } from 'redux-container-state'
-import counterUpdater, { initialState as counterInitialState } from '../counter/updater'
+import counterUpdater, { initialModel as counterInitialModel } from '../counter/updater'
 
-export default updater((state = [], action) => {
+export default updater((model = [], action) => {
 
     switch (action.type) {
 
         case 'Insert': 
             return [
-                ...state,
-                counterInitialState
+                ...model,
+                counterInitialModel
             ]
 
         case 'Remove':
-            if (state.length > 0) {
-                const counters = [ ...state ]
+            if (model.length > 0) {
+                const counters = [ ...model ]
                 counters.pop()
                 return counters
             }
-            return state
+            return model
 
         case 'Counter':
-            return state.map((counterState, index) => {
+            return model.map((counterModel, index) => {
                 if (index === action.typeParam) {
-                    return counterUpdater(counterState, action)
+                    return counterUpdater(counterModel, action)
                 }
-                return counterState
+                return counterModel
             })
 
         default:
-            return state
+            return model
     }
 })

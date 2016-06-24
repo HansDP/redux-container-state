@@ -18,6 +18,8 @@ export default (View) => class HocView extends Component {
     */
     constructor(props) {
         super(props)
+        // TODO: when the component has been unmounted, and an async action completes, the action still gets dispatched.
+        // That is not suck a huge problem, but the 'parent' updaters need to take that into consideration. This is probably the case for redux-saga
         this.dispatch = (action) => this.props.dispatch(action)
     }
 
