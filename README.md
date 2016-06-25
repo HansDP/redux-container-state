@@ -2,8 +2,6 @@
 
 This project is an attempt to integrate local container state into a Redux store, which is global by nature.
 
-> **Note:** Work in progress. This project is not ready to be used
-
 #### Influences
 
 This project evolves the ideas [redux-elm](http://salsita.github.io/redux-elm/), but avoids opinions about specific implementations of Side Effects and tries to be more in line with the [Redux](https://github.com/reactjs/redux/) approach of reducers.
@@ -12,9 +10,9 @@ Because this project is influenced by `redux-elm`, which is in its term highly i
 
 #### What is this project trying to solve?
 
-This project tries to solve the same problem as the `redux-elm` project:
+This project tries to solve the same problem as the `redux-elm` project. Basically, it comes down to this:
 
-> redux-elm is framework specifically tailored for solving difficult problems that people have to face in modern front-end application development, it is heavily based on [Composition](http://salsita.github.io/redux-elm/composition/).
+> In Redux, state is considered global. That makes it hard to create isolated and reusable container components, which require their own local state. This projects tries to abstract away the complexity to handle this problem.
 
 
 ## The Gist
@@ -269,7 +267,7 @@ export default viewWithMiddleware(({model, dispatch}) => (
 
 #### Global state
 
-In some cases, you will want to get access to the global state of Redux within your view(). For that use-case, take a loog at the global-state enhancer at [redux-container-state-globalstate](https://github.com/HansDP/redux-container-state-globalstate).
+In some cases, you will want to get access to the global state of Redux within your view(). For that use-case, take a look at the global-state enhancer at [redux-container-state-globalstate](https://github.com/HansDP/redux-container-state-globalstate).
 
 
 #### Side Effects with [redux-saga](https://github.com/yelouafi/redux-saga)
