@@ -32,4 +32,5 @@ export default viewWithMiddleware(class GifViewer extends React.Component {
         <button onClick={ () => dispatch(requestGif(model.topic)) }>More Please!</button>
       </div>
     )
+  }
 })
