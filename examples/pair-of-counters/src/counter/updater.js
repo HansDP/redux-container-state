@@ -3,15 +3,15 @@ import { updater } from 'redux-container-state'
 export const initialModel = 0
 
 export default updater((model = initialModel, action) => {
-	switch (action.type) {
+  switch (action.type) {
 
-		case 'Increment':
-			return model + 1
+    case 'Increment':
+      return model + 1
 
-		case 'Decrement':
-			return model - 1
-			
-		default:
-			return model
-	}
+    case 'Decrement':
+      return model - 1
+
+    default:
+      return model
+  }
 })

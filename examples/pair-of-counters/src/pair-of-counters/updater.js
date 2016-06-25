@@ -9,24 +9,24 @@ const initialModel = {
 
 export default updater((model = initialModel, action) => {
 
-	switch (action.type) {
+  switch (action.type) {
 
-		case 'Reset':
-			return initialModel
+    case 'Reset':
+      return initialModel
 
-		case 'TopCounter': 
-			return {
-				...model,
-				topCounter: counterUpdater(model.topCounter, action)
-			}
+    case 'TopCounter': 
+      return {
+        ...model,
+        topCounter: counterUpdater(model.topCounter, action)
+      }
 
-		case 'BottomCounter': 
-			return {
-				...model,
-				bottomCounter: counterUpdater(model.bottomCounter, action)
-			}
-			
-		default:
-			return model
-	}
+    case 'BottomCounter': 
+      return {
+        ...model,
+        bottomCounter: counterUpdater(model.bottomCounter, action)
+      }
+
+    default:
+      return model
+  }
 })

@@ -5,18 +5,18 @@ import { Provider, connect } from 'react-redux'
 
 export default (containerDomId, View, updater) => {
     const storeFactory = compose(
-        window.devToolsExtension ? window.devToolsExtension() : f => f
+      window.devToolsExtension ? window.devToolsExtension() : f => f
     )(createStore)
 
     const store = storeFactory(updater)
 
     const ConnectedView = connect(appState => ({
-        model: appState
+      model: appState
     }))(View)
 
     render((
-        <Provider store={store}>
-            <ConnectedView />
-        </Provider>
+      <Provider store={store}>
+        <ConnectedView />
+      </Provider>
     ), document.getElementById(containerDomId))
 }

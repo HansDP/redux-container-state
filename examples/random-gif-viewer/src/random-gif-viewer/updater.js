@@ -9,20 +9,20 @@ export default updater((model = initialModel, action) => {
 
 	switch (action.type) {
 
-		case 'NewGif':
-			return {
-				...model,
-				url: action.payload.url
-			}
+    case 'NewGif':
+      return {
+        ...model,
+        url: action.payload.url
+      }
 
-		case 'RequestGif':
-			return {
-				...model,
-				url: null
-			}
+    case 'RequestGif':
+      return {
+        ...model,
+        url: null
+      }
 
-		default:
-			return model
-	}
+    default:
+      return model
+  }
 })
 
