@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { applyMiddleware, createStore, compose, combineReducers } from 'redux'
+import { createStore, compose, combineReducers } from 'redux'
 import { Provider, connect } from 'react-redux'
 
 export default (containerDomId, View, updater) => {

@@ -1,4 +1,5 @@
 import { ActionDelimiter } from './constants'
+import currentReducedModels from './currentReducedModels'
 
 const parameterRegEx = /^(.+?)\[(.+)\]$/
 
@@ -23,8 +24,12 @@ const createWrappedAction = (action) => {
 		if (index >= segments.length) {
 			throw new Error(`This action has already been passed to the last child updater. Ensure that you only pass actions to intended children.`)
 		}
+
 		return {
 			...action,
+			parentType: segments.filter((s, i) => i < index)
+								.map((segment) => segment.type + (segment.param ? `[${segment.param}]` : ''))
+								.join(ActionDelimiter),
 			globalType: globalType,
 			type: segments[index].type,
 			typeParam: segments[index].param,
@@ -35,6 +40,7 @@ const createWrappedAction = (action) => {
 	return createTakeNext()
 }
 
+
 /**
  * Higher order function that adds Elm-like updater functionality to a reducer
  *
@@ -43,9 +49,18 @@ const createWrappedAction = (action) => {
  */
 export default (reducer) => (state, action) => {
 
+
 	const finalAction = action.takeNext 
 							? action.takeNext()
-							: createWrappedAction(action)
+							: delete currentReducedModels[action.type] && createWrappedAction(action)
 
-	return reducer(state, finalAction)
+	const newState = reducer(state, finalAction)
+
+	// Store in currentReducedModels. Memory-wise, this is only keeping by-ref values. 
+	// See ./currentReducedModels for details.
+	//
+	// Note: In the view, the unmount code will clear this up. 
+	currentReducedModels[finalAction.parentType] = newState
+
+	return newState
 }
