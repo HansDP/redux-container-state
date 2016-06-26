@@ -320,8 +320,6 @@ In some cases, you will want to inspect the globally dispatched action. To get a
   Shows how to achieve dynamic composition
 * [Random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/random-gif-viewer)  
   Showcase of how to work with asynchrone actions
-* [Random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/random-gif-viewer)  
-  Showcase of how to work with asynchrone actions
 * [Saga random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/saga-random-gif-viewer)  
   Showcase of how to work with side effects using the [redux-saga](https://github.com/yelouafi/redux-saga) library.
 * [Saga pair of random GIF viewers](https://github.com/HansDP/redux-container-state/tree/master/examples/saga-pair-of-random-gif-viewers)  
