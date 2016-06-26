@@ -310,6 +310,25 @@ When composed actions are send to Redux, they will follow a predictable format. 
 
 In some cases, you will want to inspect the globally dispatched action. To get a hold of this within an updater(reducer), you can inspect the `action.globalType` property.
 
+## Examples
+
+* [Counter](https://github.com/HansDP/redux-container-state/tree/master/examples/counter)  
+  Shows a simple example to showcase the basics
+* [Pair of counters](https://github.com/HansDP/redux-container-state/tree/master/examples/pair-of-counters)  
+  Shows how to achieve composition with local state
+* [Dynamic list of counters](https://github.com/HansDP/redux-container-state/tree/master/examples/dynamic-list-of-counters)  
+  Shows how to achieve dynamic composition
+* [Random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/random-gif-viewer)  
+  Showcase of how to work with asynchrone actions
+* [Random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/random-gif-viewer)  
+  Showcase of how to work with asynchrone actions
+* [Saga random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/saga-random-gif-viewer)  
+  Showcase of how to work with side effects using the [redux-saga](https://github.com/yelouafi/redux-saga) library.
+* [Saga pair of random GIF viewers](https://github.com/HansDP/redux-container-state/tree/master/examples/saga-pair-of-random-gif-viewers)  
+  Showcase of how to work with side effects using the [redux-saga](https://github.com/yelouafi/redux-saga) library when using composition
+* [Global Saga pair of random GIF viewers](https://github.com/HansDP/redux-container-state/tree/master/examples/globalsaga-pair-of-random-gif-viewers)  
+  Enables using Sagas within composed containers with Sagas that have access to both global and local state.
+
 
 ## Installation & Usage
 
