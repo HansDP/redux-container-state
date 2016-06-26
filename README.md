@@ -274,7 +274,7 @@ In some cases, you will want to get access to the global state of Redux within y
 
 If you wish to incoporate `redux-saga` into your local containers, you can use the view enhancer [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga). 
 
-Examples are not ready yet, but they are coming up. In the mean time, head over the `redux-container-state-saga` project page to get a grip of the steps needed.
+Note that the `redux-container-state-saga` is only capable of working with local actions, state and dispatch. A solution to mix global and local saga features in one container is on its way. 
 
 
 ## Some remarks
