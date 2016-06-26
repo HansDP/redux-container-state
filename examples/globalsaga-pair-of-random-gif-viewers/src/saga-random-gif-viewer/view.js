@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { view, applyLocalMiddleware } from 'redux-container-state'
-import { sagaViewEnhancer } from '../globalsaga'
+import { sagaViewEnhancer } from 'redux-container-state-globalsaga'
 import rootSaga from './sagas'
 
 const renderGif = url => {

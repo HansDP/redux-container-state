@@ -4,7 +4,7 @@ import { applyMiddleware, createStore, compose, combineReducers } from 'redux'
 import { Provider, connect } from 'react-redux'
 import { containerStateMiddleware } from 'redux-container-state'
 
-import { sagaStoreEnhancer } from './globalsaga'
+import { sagaStoreEnhancer } from 'redux-container-state-globalsaga'
 
 export default (containerDomId, View, updater) => {
   const storeFactory = compose(

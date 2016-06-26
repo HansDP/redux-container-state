@@ -1,7 +1,5 @@
 import { updater } from 'redux-container-state'
 
-import counterUpdater, { initialState as counterInitialState } from '../counter/updater'
-
 export const init = (topic) => ({
 	topic,
 	url: null
