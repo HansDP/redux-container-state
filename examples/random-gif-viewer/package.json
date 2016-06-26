@@ -1,6 +1,6 @@
 {
   "name": "redux-container-state-example-counter",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.js --port 3000 --hot --content-base ./"
   },
@@ -11,7 +11,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
-    "redux-container-state": "^0.1.5",
+    "redux-container-state": "^0.2.0",
     "redux-container-state-thunk": "^0.1.2",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.12.1"
