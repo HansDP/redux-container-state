@@ -272,12 +272,31 @@ In some cases, you will want to get access to the global state of Redux within y
 
 #### Side Effects with [redux-saga](https://github.com/yelouafi/redux-saga)
 
-If you wish to incoporate `redux-saga` into your local containers, you can use the view enhancer [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga). 
+If you wish to incoporate `redux-saga` into your local containers, you can have [redux-container-state-globalsaga](https://github.com/HansDP/redux-container-state-globalsaga). This extension enables Sagas that have access to actions and state from both global (redux store) and local (container) sources. 
 
-Note that the `redux-container-state-saga` is only capable of working with local actions, state and dispatch. A solution to mix global and local saga features in one container is on its way. 
-
+If you need Sagas that work on containers only (so only local actions and state), there is another option as well: [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga)
 
 ## Some remarks
+
+#### Redux middleware
+
+`redux-container-state` requires a piece of middleware to keep things going. 
+
+```javascript
+import { applyMiddleware, createStore, compose } from 'redux'
+import { containerStateMiddleware } from 'redux-container-state'
+
+import rootReducer from './path/to/rootReducer'
+
+const storeFactory = compose(
+  applyMiddleware(containerStateMiddleware())
+)(createStore)
+
+const store = storeFactory(rootReducer)
+
+...
+
+```
 
 #### Actions are dispatched globally
 
