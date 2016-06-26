@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { compose } from 'redux'
+import currentReducedModels from './currentReducedModels'
 
 export default (...middlewares) => (next) => (View) => {
 
 	const createDispatch = (view) => {
 		const localDispatch = (action) => view.props.dispatch(action)
 		const middlewareAPI = {
-			getState: () => view.props.model,
+			getState: () => currentReducedModels[view.props.containerLocation] || view.props.model,
 			dispatch: localDispatch,
 			getGlobalState: () => view.context.store.getState(),
 			globalDispatch: (action) => view.context.store.dispatch(action)
