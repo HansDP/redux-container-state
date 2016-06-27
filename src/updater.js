@@ -55,16 +55,7 @@ export default (reducer) => (state, action) => {
 
 	const model = reducer(state, finalAction)
 
-	// Make sure to update the middleware with this latest version.
-	
-	// TODO: when multiple instances of updater are loaded (from different includes -- so not in the 
-	// same memory space), this won't work.
-	// 
-	// If there is no solution for this, there is no need for SHORT_CIRCUIT action anymore
-	// (because this SHORT_CIRCUIT action thingie is also in place to have globaly
-	// managed state) -- and this direct access defeats that purpose (the SHORT_CIRCUIT is still
-	// applicable to get the action full-name, but that can be solved in an 'internal' way if needed)
-	// The 'cache' should be local to the view ... which wont be any issue if all 'redux-container-state' instances have their own 'cache'
+	// Make sure to update the 'model repository' with this latest reduced version.
 	updateModel(finalAction.parentType, model)
 
 	return model
