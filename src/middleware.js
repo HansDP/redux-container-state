@@ -17,11 +17,7 @@ export default () => (store) => (next) => (action) => {
 			const indexOfFinalAction = type.lastIndexOf(ActionDelimiter)
 			const containerLocation = type.substr(0, indexOfFinalAction)
 
-			if (type.indexOf('@@GET_MODEL') !== -1) {
-				shortCircuitData.unintendedPath(modelsRepository[containerLocation], containerLocation)
-			} else if (type.indexOf('@@CLEAR_MODEL') !== -1) {
-				delete modelsRepository[containerLocation]
-			}
+			shortCircuitData.unintendedPath(containerLocation)
 
 			// Short circuited. 
 			// Do not continue with this action (to prevent updates)
@@ -36,22 +32,17 @@ export const updateModel = (key, model) => {
 	modelsRepository[key] = model
 }
 
-export const getModelAction = (unintendedPath) => {
+export const getModel = (key) => modelsRepository[key]
+
+export const clearModel = (key) => delete modelsRepository[key]
+
+export const getLocationAction = (unintendedPath) => {
 	return {
 		type: '@@GET_MODEL',
 		meta: {
 			SHORT_CIRCUIT: {
 				unintendedPath
 			}
-		}
-	}
-}
-
-export const clearModelAction = () => {
-	return {
-		type: '@@CLEAR_MODEL',
-		meta: {
-			SHORT_CIRCUIT: {}
 		}
 	}
 }

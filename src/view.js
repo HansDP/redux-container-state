@@ -1,5 +1,5 @@
 import { createElement, Component, PropTypes } from 'react'
-import { clearModelAction } from './middleware'
+import { getLocationAction, clearModel } from './middleware'
 
 /**
  * Higher order component implementing shouldComponentUpdate which ignores passed dispatch
@@ -10,10 +10,6 @@ export default (View) => class HocView extends Component {
 
     static propTypes = {
         dispatch: PropTypes.func.isRequired
-    };
-
-    static contextTypes = {
-        store: PropTypes.object.isRequired
     };
 
     /**
@@ -29,8 +25,12 @@ export default (View) => class HocView extends Component {
     }
 
     componentWillUnmount() {
+
         // TODO: need to test
-        this.dispatch(clearModelAction())
+        let location
+        this.dispatch(getLocationAction((loc) => location = loc))
+        warning(location !== undefined, 'Middleware \'containerStateMiddleware\' not installed. Apply this middleware to your Redux store.')
+        clearModel(location)
     }
 
     /**
