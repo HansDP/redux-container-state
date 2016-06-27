@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { compose } from 'redux'
 import warning from 'warning'
-import { getModelAction } from './middleware'
-
-const notInitializedModel = {}
+import { getModel, getLocationAction } from './middleware'
 
 export default (...middlewares) => (next) => (View) => {
 
@@ -11,10 +9,10 @@ export default (...middlewares) => (next) => (View) => {
 		const localDispatch = (action) => view.props.dispatch(action)
 		const middlewareAPI = {
 			getState: () => {
-				let model = notInitializedModel
-				localDispatch(getModelAction((data) => model = data))
-				warning(model !== notInitializedModel, 'Middleware \'containerStateMiddleware\' not installed. Apply this middleware to your Redux store.')
-				return model
+				let location
+				localDispatch(getLocationAction((loc) => location = loc))
+				warning(location !== undefined, 'Middleware \'containerStateMiddleware\' not installed. Apply this middleware to your Redux store.')
+				return getModel(location)
 			},
 			dispatch: localDispatch,
 			getGlobalState: () => view.context.store.getState(),
