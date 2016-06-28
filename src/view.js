@@ -45,7 +45,7 @@ export default (View) => class HocView extends Component {
             this.localDispatch = (action) => localDispatch(action)
         }
         this.dispatch = () => {
-            warning(false, 'You cannot use the generic dispatch method. Use localDispatch() instead.')
+            warning(false, 'You cannot use the generic dispatch method. Use localDispatch() instead. This dispatch() call has been terminated.')
         }
     }
 
