@@ -1,12 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { applyMiddleware, createStore, compose } from 'redux'
+import { createStore, compose } from 'redux'
 import { Provider, connect } from 'react-redux'
-import { containerStateMiddleware } from 'redux-container-state'
 
 export default (containerDomId, View, updater) => {
   const storeFactory = compose(
-    applyMiddleware(containerStateMiddleware()),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   )(createStore)
 

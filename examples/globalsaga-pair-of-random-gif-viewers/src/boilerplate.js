@@ -1,14 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { applyMiddleware, createStore, compose, combineReducers } from 'redux'
+import { createStore, compose, combineReducers } from 'redux'
 import { Provider, connect } from 'react-redux'
-import { containerStateMiddleware } from 'redux-container-state'
 
 import { sagaStoreEnhancer } from 'redux-container-state-globalsaga'
 
 export default (containerDomId, View, updater) => {
   const storeFactory = compose(
-    applyMiddleware(containerStateMiddleware()),
     sagaStoreEnhancer(),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   )(createStore)

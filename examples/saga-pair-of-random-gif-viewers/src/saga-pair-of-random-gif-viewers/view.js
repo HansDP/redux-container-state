@@ -3,10 +3,10 @@ import { forwardTo, view } from 'redux-container-state'
 
 import GifViewer from '../saga-random-gif-viewer/view'
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
 	<div>
-    <GifViewer model={model.top} dispatch={forwardTo(dispatch, 'Top')} />
-    <GifViewer model={model.bottom} dispatch={forwardTo(dispatch, 'Bottom')} />
-    <button onClick={() => dispatch({ type: 'Reset' })}>RESET</button>
+    <GifViewer model={model.top} localDispatch={forwardTo(localDispatch, 'Top')} />
+    <GifViewer model={model.bottom} localDispatch={forwardTo(localDispatch, 'Bottom')} />
+    <button onClick={() => localDispatch({ type: 'Reset' })}>RESET</button>
   </div>
 ))

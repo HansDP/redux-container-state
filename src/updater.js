@@ -1,5 +1,5 @@
 import { ActionDelimiter } from './constants'
-import { updateModel } from './middleware'
+import { updateModel } from './modelRepository'
 
 const parameterRegEx = /^(.+?)\[(.+)\]$/
 

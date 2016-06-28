@@ -18,17 +18,17 @@ const options = {
   onMount: (props) => {
     // If the model is empty, fetch a new gif.
     if (!props.model.url) {
-      props.dispatch({ type: 'RequestGif' })
+      props.localDispatch({ type: 'RequestGif' })
     }
   }
 }
 
 const viewWithMiddleware = compose(sagaViewEnhancer(rootSaga, options))(view)
 
-export default viewWithMiddleware(({ model, dispatch }) => (
+export default viewWithMiddleware(({ model, localDispatch }) => (
   <div style={{ width: '200px' }}>
     <h2 style={{ width: '200px', textAlign: 'center' }}>{ model.topic }</h2>
     { renderGif(model.url) }
-    <button onClick={ () => dispatch({ type: 'RequestGif' }) }>More Please!</button>
+    <button onClick={ () => localDispatch({ type: 'RequestGif' }) }>More Please!</button>
   </div>
 ))

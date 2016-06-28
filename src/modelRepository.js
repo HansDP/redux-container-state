@@ -1,4 +1,5 @@
-import { ActionDelimiter } from './constants'
+import warning from 'warning'
+
 
 // Why do we need this strange way of storing all Models?
 // Because we need in multiple locations access to the Model (e.g. in the applyLocalMiddleware -> getState )
@@ -9,24 +10,6 @@ import { ActionDelimiter } from './constants'
 // view.props.model, we would use the old version, not the latest version (from the reducer)
 const modelsRepository = {}
 
-export default () => (store) => (next) => (action) => {
-	if (action.meta) {
-		const { SHORT_CIRCUIT: shortCircuitData } = action.meta
-		if (shortCircuitData) {
-			const { type } = action
-			const indexOfFinalAction = type.lastIndexOf(ActionDelimiter)
-			const containerLocation = type.substr(0, indexOfFinalAction)
-
-			shortCircuitData.unintendedPath(containerLocation)
-
-			// Short circuited. 
-			// Do not continue with this action (to prevent updates)
-			return
-		}
-	}	
-	return next(action)
-}
-
 // When an updator reducer has exectued, he should set the updated model in the repository
 export const updateModel = (key, model) => {
 	modelsRepository[key] = model
@@ -36,13 +19,3 @@ export const getModel = (key) => modelsRepository[key]
 
 export const clearModel = (key) => delete modelsRepository[key]
 
-export const getLocationAction = (unintendedPath) => {
-	return {
-		type: '@@GET_MODEL',
-		meta: {
-			SHORT_CIRCUIT: {
-				unintendedPath
-			}
-		}
-	}
-}

@@ -1,20 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 import { compose } from 'redux'
 import warning from 'warning'
-import { getModel, getLocationAction } from './middleware'
+import { getModel } from './modelRepository'
 
 export default (...middlewares) => (next) => (View) => {
 
 	const createDispatch = (view) => {
-		const localDispatch = (action) => view.props.dispatch(action)
+		const localDispatch = (action) => view.props.localDispatch(action)
 		const middlewareAPI = {
-			getState: () => {
-				let location
-				localDispatch(getLocationAction((loc) => location = loc))
-				warning(location !== undefined, 'Middleware \'containerStateMiddleware\' not installed. Apply this middleware to your Redux store.')
+			getLocalState: () => {
+        		const location = localDispatch({ type: '@@GET_FULL_NAME', isNameLookup: true })
+				warning(location !== undefined, 'Could not find the top-level view().')
 				return getModel(location)
 			},
-			dispatch: localDispatch,
+			localDispatch,
 			getGlobalState: () => view.context.store.getState(),
 			globalDispatch: (action) => view.context.store.dispatch(action)
 		}
@@ -26,7 +25,7 @@ export default (...middlewares) => (next) => (View) => {
 	return next(class ViewWithMiddleware extends Component {
 		constructor(props, context) {
 			super(props, context)
-			this.dispatch = createDispatch(this)
+			this.localDispatch = createDispatch(this)
 		}
 
 	    static contextTypes = {
@@ -34,7 +33,7 @@ export default (...middlewares) => (next) => (View) => {
 	    };
 
 		render() {
-			return React.createElement(View, { ...this.props, dispatch: this.dispatch})
+			return React.createElement(View, { ...this.props, localDispatch: this.localDispatch })
 		}
 	})
 }
