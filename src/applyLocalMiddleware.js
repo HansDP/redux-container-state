@@ -1,13 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 import { compose } from 'redux'
-import currentReducedModels from './currentReducedModels'
+import warning from 'warning'
+import { getModel, getLocationAction } from './middleware'
 
 export default (...middlewares) => (next) => (View) => {
 
 	const createDispatch = (view) => {
 		const localDispatch = (action) => view.props.dispatch(action)
 		const middlewareAPI = {
-			getState: () => currentReducedModels[view.props.containerLocation] || view.props.model,
+			getState: () => {
+				let location
+				localDispatch(getLocationAction((loc) => location = loc))
+				warning(location !== undefined, 'Middleware \'containerStateMiddleware\' not installed. Apply this middleware to your Redux store.')
+				return getModel(location)
+			},
 			dispatch: localDispatch,
 			getGlobalState: () => view.context.store.getState(),
 			globalDispatch: (action) => view.context.store.dispatch(action)

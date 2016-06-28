@@ -1,5 +1,5 @@
 {
-  "name": "redux-container-state-example-saga-random-gif-view",
+  "name": "redux-container-state-example-globalsaga",
   "version": "0.3.1",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.js --port 3000 --hot --content-base ./"
@@ -12,9 +12,8 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
     "redux-container-state": "^0.3.1",
-    "redux-container-state-saga": "^0.3.1",
+    "redux-container-state-globalsaga": "^0.3.1",
     "redux-saga": "^0.10.5",
-    "redux-thunk": "^2.1.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.12.1"
   },

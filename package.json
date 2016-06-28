@@ -1,6 +1,6 @@
 {
   "name": "redux-container-state",
-  "version": "0.1.6",
+  "version": "0.3.1",
   "description": "Local container state for Redux based on the Elm Architecture",
   "main": "lib/index.js",
   "files": [
@@ -55,7 +55,6 @@
     "warning": "^3.0.0"
   },
   "peerDependencies": {
-    "react": "^15.0.2 || ^0.14.8",
-    "redux-saga": "^0.10.2"
+    "react": "^15.0.2 || ^0.14.8"
   }
 }

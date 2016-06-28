@@ -272,12 +272,31 @@ In some cases, you will want to get access to the global state of Redux within y
 
 #### Side Effects with [redux-saga](https://github.com/yelouafi/redux-saga)
 
-If you wish to incoporate `redux-saga` into your local containers, you can use the view enhancer [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga). 
+If you wish to incoporate `redux-saga` into your local containers, you can have [redux-container-state-globalsaga](https://github.com/HansDP/redux-container-state-globalsaga). This extension enables Sagas that have access to actions and state from both global (redux store) and local (container) sources. 
 
-Note that the `redux-container-state-saga` is only capable of working with local actions, state and dispatch. A solution to mix global and local saga features in one container is on its way. 
-
+If you need Sagas that work on containers only (so only local actions and state), there is another option as well: [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga)
 
 ## Some remarks
+
+#### Redux middleware
+
+`redux-container-state` requires a piece of middleware to keep things going. 
+
+```javascript
+import { applyMiddleware, createStore, compose } from 'redux'
+import { containerStateMiddleware } from 'redux-container-state'
+
+import rootReducer from './path/to/rootReducer'
+
+const storeFactory = compose(
+  applyMiddleware(containerStateMiddleware())
+)(createStore)
+
+const store = storeFactory(rootReducer)
+
+...
+
+```
 
 #### Actions are dispatched globally
 
@@ -290,6 +309,23 @@ When composed actions are send to Redux, they will follow a predictable format. 
 #### Inspecting the global type in an updater
 
 In some cases, you will want to inspect the globally dispatched action. To get a hold of this within an updater(reducer), you can inspect the `action.globalType` property.
+
+## Examples
+
+* [Counter](https://github.com/HansDP/redux-container-state/tree/master/examples/counter)  
+  Shows a simple example to showcase the basics
+* [Pair of counters](https://github.com/HansDP/redux-container-state/tree/master/examples/pair-of-counters)  
+  Shows how to achieve composition with local state
+* [Dynamic list of counters](https://github.com/HansDP/redux-container-state/tree/master/examples/dynamic-list-of-counters)  
+  Shows how to achieve dynamic composition
+* [Random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/random-gif-viewer)  
+  Showcase of how to work with asynchrone actions
+* [Saga random GIF viewer](https://github.com/HansDP/redux-container-state/tree/master/examples/saga-random-gif-viewer)  
+  Showcase of how to work with side effects using the [redux-saga](https://github.com/yelouafi/redux-saga) library.
+* [Saga pair of random GIF viewers](https://github.com/HansDP/redux-container-state/tree/master/examples/saga-pair-of-random-gif-viewers)  
+  Showcase of how to work with side effects using the [redux-saga](https://github.com/yelouafi/redux-saga) library when using composition
+* [Global Saga pair of random GIF viewers](https://github.com/HansDP/redux-container-state/tree/master/examples/globalsaga-pair-of-random-gif-viewers)  
+  Enables using Sagas within composed containers with Sagas that have access to both global and local state.
 
 
 ## Installation & Usage

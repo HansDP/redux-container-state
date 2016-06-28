@@ -1,5 +1,5 @@
 import { ActionDelimiter } from './constants'
-import currentReducedModels from './currentReducedModels'
+import { updateModel } from './middleware'
 
 const parameterRegEx = /^(.+?)\[(.+)\]$/
 
@@ -49,18 +49,14 @@ const createWrappedAction = (action) => {
  */
 export default (reducer) => (state, action) => {
 
-
 	const finalAction = action.takeNext 
 							? action.takeNext()
-							: delete currentReducedModels[action.type] && createWrappedAction(action)
+							: createWrappedAction(action)
 
-	const newState = reducer(state, finalAction)
+	const model = reducer(state, finalAction)
 
-	// Store in currentReducedModels. Memory-wise, this is only keeping by-ref values. 
-	// See ./currentReducedModels for details.
-	//
-	// Note: In the view, the unmount code will clear this up. 
-	currentReducedModels[finalAction.parentType] = newState
+	// Make sure to update the 'model repository' with this latest reduced version.
+	updateModel(finalAction.parentType, model)
 
-	return newState
+	return model
 }
