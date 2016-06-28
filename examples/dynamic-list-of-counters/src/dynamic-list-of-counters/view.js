@@ -3,13 +3,13 @@ import { forwardTo, view } from 'redux-container-state'
 
 import Counter from '../counter/view'
 
-const viewCounter = (dispatch, model, index) =>
-  <Counter key={index} dispatch={ forwardTo(dispatch, 'Counter', index) } model={ model } />
+const viewCounter = (localDispatch, model, index) =>
+  <Counter key={index} localDispatch={ forwardTo(localDispatch, 'Counter', index) } model={ model } />
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
 	<div>
-    <button onClick={ () => dispatch({ type: 'Remove' }) }>Remove</button>
-    <button onClick={ () => dispatch({ type: 'Insert' }) }>Add</button>
-    {model.map((counterModel, index) => viewCounter(dispatch, counterModel, index))}
+    <button onClick={ () => localDispatch({ type: 'Remove' }) }>Remove</button>
+    <button onClick={ () => localDispatch({ type: 'Insert' }) }>Add</button>
+    {model.map((counterModel, index) => viewCounter(localDispatch, counterModel, index))}
   </div>
 ))

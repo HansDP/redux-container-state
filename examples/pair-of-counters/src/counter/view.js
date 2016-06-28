@@ -9,10 +9,10 @@ const countStyle = {
   textAlign: 'center'
 }
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
   <div>
-    <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
+    <button onClick={() => localDispatch({ type: 'Decrement' })}>-</button>
     <div style={countStyle}>{model}</div>
-    <button onClick={() => dispatch({ type: 'Increment' })}>+</button>
+    <button onClick={() => localDispatch({ type: 'Increment' })}>+</button>
     </div>
 ))

@@ -58,11 +58,11 @@ export default updater((model = initialModel, action) => {
 import React from 'react'
 import { view } from 'redux-container-state'
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
   <div>
-    <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
+    <button onClick={() => localDispatch({ type: 'Decrement' })}>-</button>
     <div>{model}</div>
-    <button onClick={() => dispatch({ type: 'Increment' })}>+</button>
+    <button onClick={() => localDispatch({ type: 'Increment' })}>+</button>
   </div>
 ))
 ```
@@ -92,18 +92,18 @@ import { forwardTo, view } from 'redux-container-state'
 
 import Counter from '../counter/view'
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
   <div>
-    <Counter model={model.topCounter} dispatch={forwardTo(dispatch, 'TopCounter')} />
-    <Counter model={model.bottomCounter} dispatch={forwardTo(dispatch, 'BottomCounter')} />
-    <button onClick={() => dispatch({ type: 'Reset' })}>RESET</button>
+    <Counter model={model.topCounter} localDispatch={forwardTo(localDispatch, 'TopCounter')} />
+    <Counter model={model.bottomCounter} localDispatch={forwardTo(localDispatch, 'BottomCounter')} />
+    <button onClick={() => localDispatch({ type: 'Reset' })}>RESET</button>
   </div>
 ))
 ```
 
-The above sample actually explains the internal working of the composition mechanism: the parent container prepares a new `dispatch` method for its child containers. This new `dispatch` method is capable of composing an hierarchical action. 
+The above sample actually explains the internal working of the composition mechanism: the parent container prepares a new `localDispatch` method for its child containers. This new `localDispatch` method is capable of composing an hierarchical action. 
 
-For instance: `forwardTo(dispatch, 'TopCounter')` creates a new `dispatch` method that will wrap dispatches of the child container into the TopCounter context. This context can then be used within the parent updater to inspect the targetted child container.
+For instance: `forwardTo(localDispatch, 'TopCounter')` creates a new `localDispatch` method that will wrap dispatches of the child container into the TopCounter context. This context can then be used within the parent updater to inspect the targetted child container.
 
 ##### Parent updater
 
@@ -157,19 +157,19 @@ import { forwardTo, view } from 'redux-container-state'
 
 import Counter from '../counter/view'
 
-const viewCounter = (dispatch, model, index) =>
-  <Counter key={index} dispatch={ forwardTo(dispatch, 'Counter', index) } model={ model } />
+const viewCounter = (localDispatch, model, index) =>
+  <Counter key={index} localDispatch={ forwardTo(localDispatch, 'Counter', index) } model={ model } />
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
   <div>
-    <button onClick={ () => dispatch({ type: 'Remove' }) }>Remove</button>
-    <button onClick={ () => dispatch({ type: 'Insert' }) }>Add</button>
-    {model.map((counterModel, index) => viewCounter(dispatch, counterModel, index))}
+    <button onClick={ () => localDispatch({ type: 'Remove' }) }>Remove</button>
+    <button onClick={ () => localDispatch({ type: 'Insert' }) }>Add</button>
+    {model.map((counterModel, index) => viewCounter(localDispatch, counterModel, index))}
   </div>
 ))
 ```
 
-Because there are an unknown amount of child containers, the parent view is not capable of forwarding the dispatch method in a predictable way (without trickery code, that is).
+Because there are an unknown amount of child containers, the parent view is not capable of forwarding the localDispatch method in a predictable way (without trickery code, that is).
 
 That is why the `forwardTo` method can take an additional parameter, which parameterizes the action type that is being forwarded. This parameter can then be used within the parent's updater.
 
@@ -238,9 +238,9 @@ const increment = () => {
 }
 
 const incrementAsync = () => {
-  return (dispatch, getState) => {
+  return (localDispatch, getState) => {
     setTimeout(() => {
-      dispatch(increment());
+      localDispatch(increment());
     }, 1000)
   }
 }
@@ -257,9 +257,9 @@ const counterUpdater = updater((model = 0, action) => {
 const viewWithMiddleware = compose(applyLocalMiddleware(localThunk))(view)
 
 // Pass the middlewares you need to the view method.
-export default viewWithMiddleware(({model, dispatch}) => (
+export default viewWithMiddleware(({model, localDispatch}) => (
   <div>
-    <button onClick={ () => dispatch(incrementAsync()) }>Start counter</button>
+    <button onClick={ () => localDispatch(incrementAsync()) }>Start counter</button>
     Current count: { model }
   </div>
 ))
@@ -277,26 +277,6 @@ If you wish to incoporate `redux-saga` into your local containers, you can have 
 If you need Sagas that work on containers only (so only local actions and state), there is another option as well: [redux-container-state-saga](https://github.com/HansDP/redux-container-state-saga)
 
 ## Some remarks
-
-#### Redux middleware
-
-`redux-container-state` requires a piece of middleware to keep things going. 
-
-```javascript
-import { applyMiddleware, createStore, compose } from 'redux'
-import { containerStateMiddleware } from 'redux-container-state'
-
-import rootReducer from './path/to/rootReducer'
-
-const storeFactory = compose(
-  applyMiddleware(containerStateMiddleware())
-)(createStore)
-
-const store = storeFactory(rootReducer)
-
-...
-
-```
 
 #### Actions are dispatched globally
 

@@ -3,10 +3,10 @@ import { forwardTo, view } from 'redux-container-state'
 
 import Counter from '../counter/view'
 
-export default view(({ model, dispatch }) => (
+export default view(({ model, localDispatch }) => (
   <div>
-    <Counter model={model.topCounter} dispatch={forwardTo(dispatch, 'TopCounter')} />
-    <Counter model={model.bottomCounter} dispatch={forwardTo(dispatch, 'BottomCounter')} />
-    <button onClick={() => dispatch({ type: 'Reset' })}>RESET</button>
+    <Counter model={model.topCounter} localDispatch={forwardTo(localDispatch, 'TopCounter')} />
+    <Counter model={model.bottomCounter} localDispatch={forwardTo(localDispatch, 'BottomCounter')} />
+    <button onClick={() => localDispatch({ type: 'Reset' })}>RESET</button>
   </div>
 ))
